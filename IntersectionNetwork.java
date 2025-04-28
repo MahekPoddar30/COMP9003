@@ -11,40 +11,41 @@ class SimulationException extends Exception {
 class IntersectionNetwork {
     private int[][] intersectionMatrix;
     private List<IntersectionNetwork> vehicles;
-    private int[] status; // status[i] = 1 if vehicle turns at i-th intersection
     private static final int LANES = 3;
     private static final int INTERSECTIONS = 10;
 
     public IntersectionNetwork() {
         intersectionMatrix = new int[LANES][INTERSECTIONS];
         vehicles = new ArrayList<>();
-        status = new int[INTERSECTIONS];
-
-        // Only lane 0 and lane 2 (1 and 3 in human terms) have intersections
-        for (int i = 0; i < INTERSECTIONS; i++) {
-            if (i % 2 == 0) { // intersections 1, 3, 5, ... 
-                intersectionMatrix[0][i] = 1;
-                intersectionMatrix[2][i] = 1;
-            }
-        }
     }
-
-    // Simulate moving a vehicle through the network
+    
     public void moveThrough() {
-        for (int i = 0; i < INTERSECTIONS; i++) {
-            if (i % 2 == 0) {
-                status[i] = 1; // Move through odd-numbered intersections
-            } else {
-                status[i] = 0; // Skip even-numbered intersections
+        // Initialize: lane 1 and lane 3 have intersections at odd-numbered places only
+        for (int lane = 1; lane <= LANES; lane++) {
+            for (int i = 1; i <= INTERSECTIONS; i++) {
+                if ((lane == 1 || lane == 3) && (i % 2 == 1)) {
+                    intersectionMatrix[lane - 1][i - 1] = 1; // There are intersections at odd-numbered locations
+                } else {
+                    intersectionMatrix[lane - 1][i - 1] = 0; // No intersections
+                }
             }
         }
     }
 
-    // Display the status of intersections for the current object
-    public void showIntersectionStatus() {
-        System.out.println("Vehicle Intersection Status:");
-        for (int i = 0; i < INTERSECTIONS; i++) {
-            System.out.println("Intersection " + (i + 1) + ": " + (status[i] == 1 ? "Turned" : "Skipped"));
+    // Simulate moving through intersections for a given lane
+    public void showIntersectionStatus(int lane) {
+        System.out.println("Vehicle moving through Lane " + lane + ":");
+
+        for (int i = 1; i <= INTERSECTIONS; i++) {
+            if (i % 2 == 1) { // Odd-numbered intersections (numbers 1, 3, 5, 7, 9)
+                if (intersectionMatrix[lane - 1][i - 1] == 1) {
+                    System.out.println("Intersection " + i + ": Turned (through intersection)");
+                } else {
+                    System.out.println("Intersection " + i + ": No intersection to turn");
+                }
+            } else {
+                System.out.println("Intersection " + i + ": Skipped (even-numbered intersection)");
+            }
         }
     }
 
@@ -53,12 +54,12 @@ class IntersectionNetwork {
         vehicles.add(vehicle);
     }
 
-    // Simulate movement through an invalid lane (e.g., lane 1 which has no intersections)
+    // Simulate movement through an invalid lane (e.g., lane 2 which has no intersections)
     public void simulateInvalidMovement() {
         try {
-            for (int i = 0; i < INTERSECTIONS; i++) {
-                if (intersectionMatrix[1][i] == 1) {
-                    throw new SimulationException("Illegal movement on middle lane at intersection " + (i + 1));
+            for (int i = 1; i <= INTERSECTIONS; i++) {
+                if (intersectionMatrix[1][i - 1] == 1) {
+                    throw new SimulationException("Illegal movement on middle lane at intersection " + i);
                 }
             }
             System.out.println("Simulation through middle lane completed without intersections.");
