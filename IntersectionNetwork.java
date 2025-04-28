@@ -68,4 +68,32 @@ class IntersectionNetwork {
         }
     }
 
+    public static void main(String[] args) {
+        IntersectionNetwork vehicle1 = new IntersectionNetwork();
+        IntersectionNetwork vehicle2 = new IntersectionNetwork();
+        IntersectionNetwork vehicle3 = new IntersectionNetwork();
+
+        vehicle1.addVehicle(vehicle1);
+        vehicle2.addVehicle(vehicle2);
+        vehicle3.addVehicle(vehicle3);
+
+        // Vehicle 1 tests lane = 1
+        System.out.println("--- Vehicle 1 moving through Lane 1 ---");
+        vehicle1.moveThrough();
+        vehicle1.showIntersectionStatus(1);
+
+        System.out.println();
+
+        // Vehicle 2 tests lane = 3
+        System.out.println("--- Vehicle 2 moving through Lane 3 ---");
+        vehicle2.moveThrough();
+        vehicle2.showIntersectionStatus(3);
+
+        System.out.println();
+
+        // Vehicle 3 test lane = 2
+        System.out.println("--- Vehicle 3 simulate invalid movement on Lane 2 ---");
+        vehicle3.moveThrough();
+        vehicle3.showIntersectionStatus(2);
+    }
 }
