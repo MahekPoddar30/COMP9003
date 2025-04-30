@@ -76,7 +76,11 @@ public class Main {
         for (TrafficSignal signal : trafficSignals) {
             signal.showTrafficSignal();
         }
-        intersectionNetwork.showIntersectionStatus(); // Show intersection status
+        //intersectionNetwork.showIntersectionStatus(); // Show intersection status
+        //Loop through all 3 lanes to show intersection status
+        for (int lane = 1; lane <= 3; lane++) {
+           intersectionNetwork.showIntersectionStatus(lane);
+        }
     }
 
     // Method to add a vehicle
