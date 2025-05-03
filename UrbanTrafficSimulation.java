@@ -9,12 +9,23 @@ public class UrbanTrafficSimulation {
         Vehicle truck = new Truck("Truck1");
 
         // Simulating movements for the 5 iterations
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 2; i++) {
             car.move(); // Move the car
             bus.move(); // Move the bus
             truck.move(); // Move the truck
             
-            // Displaying the current state of each vehicle
+            // Displaying Traffic State after 2 moves
+            car.showTrafficState();
+            bus.showTrafficState();
+            truck.showTrafficState();
+            System.out.println(); // Adding a line break for clarity
+
+        for (int i = 0; i < 3; i++) {
+            car.move(); // Move the car
+            bus.move(); // Move the bus
+            truck.move(); // Move the truck
+            
+            //  Displaying Traffic State after 5 moves
             car.showTrafficState();
             bus.showTrafficState();
             truck.showTrafficState();
