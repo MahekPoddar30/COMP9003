@@ -50,7 +50,7 @@ public class TrafficSignal {
         return signalID;
     }
 
-    // ✅ Main method to test the TrafficSignal class independently
+    //  Main method to test the TrafficSignal class independently
     public static void main(String[] args) {
         // First create a traffic signal object
         TrafficSignal signal = new TrafficSignal("Traffic_Signal_1");
