@@ -9,29 +9,19 @@ public class UrbanTrafficSimulation {
         Vehicle truck = new Truck("Truck1");
 
         // Simulating movements for the 5 iterations
-        for (int i = 0; i < 2; i++) {
-            car.move(); // Move the car
-            bus.move(); // Move the bus
-            truck.move(); // Move the truck
-            
-            // Displaying Traffic State after 2 moves
-            car.showTrafficState();
-            bus.showTrafficState();
-            truck.showTrafficState();
-            System.out.println(); // Adding a line break for clarity
+        for (int i = 1; i <= 5; i++) {
+            car.move();
+            bus.move();
+            truck.move();
 
-        for (int i = 0; i < 3; i++) {
-            car.move(); // Move the car
-            bus.move(); // Move the bus
-            truck.move(); // Move the truck
-            
-            //  Displaying Traffic State after 5 moves
-            car.showTrafficState();
-            bus.showTrafficState();
-            truck.showTrafficState();
-            System.out.println(); // Adding a line break for clarity
+            // Display status after the second and fifth move() calls.
+            if (i == 2 || i == 5) {
+                car.showTrafficState();
+                bus.showTrafficState();
+                truck.showTrafficState();
+                System.out.println();
+            }
         }
-    }
 }
 
 // Abstract class Vehicle
@@ -125,6 +115,11 @@ class Bus extends Vehicle {
         // Specific behavior for Bus (if needed)
         super.move(); // Calling the move method from the Vehicle class
     }
+
+    @Override
+    public int velocity() {
+        return 80 / 5; // 16 m/s
+    }
 }
 
 // Truck Class extending Vehicle
@@ -137,5 +132,10 @@ class Truck extends Vehicle {
     public void move() {
         // The specific behavior for Truck (if needed)
         super.move(); // Calling the move method from the Vehicle class
+    }
+
+    @Override
+    public int velocity() {
+        return 90 / 5; // 18 m/s
     }
 }
