@@ -1,12 +1,5 @@
 public class TrafficSignal {
 
-    // Exception method to handle invalid state 
-    static class SimulationException extends Exception {
-        public SimulationException(String message) {
-            super(message);
-        }
-    }
-
     // Creation of TrafficSignal class with appropriate methods and attributes
     private String signalID;   // ID for signal
     private String[] states = {"Red", "Yellow", "Green"}; // signal states
@@ -15,11 +8,14 @@ public class TrafficSignal {
 
     //Defining a constructor that matches Main.java usage
     public TrafficSignal(String signalID) {
+        if (signalID == null || signalID.trim().isEmpty()) {
+            throw new IllegalArgumentException("Signal ID cannot be null or empty.");
+        }
         this.signalID = signalID;
     }
 
     // Defining a method to cycle through the states
-    public void signal() {
+    public void signal() throws SimulationException{
         try {
             currentStateIndex++;
 
@@ -30,7 +26,7 @@ public class TrafficSignal {
 
             // print current signal state and its timer
             System.out.println("Signal " + signalID + " is now " + states[currentStateIndex] +
-                               " for " + timers[currentStateIndex] + " seconds.");
+                    " for " + timers[currentStateIndex] + " seconds.");
 
         } catch (SimulationException e) {
             System.out.println("Error in signal " + signalID + ": " + e.getMessage());
@@ -46,24 +42,41 @@ public class TrafficSignal {
         }
     }
 
+    // Adjusts timer durations from Main class
+    public void setTimers(int redDuration, int yellowDuration, int greenDuration) {
+        if (redDuration <= 0 || yellowDuration <= 0 || greenDuration <= 0) {
+            throw new IllegalArgumentException("Timer durations must be positive.");
+        }
+        timers[0] = redDuration;
+        timers[1] = yellowDuration;
+        timers[2] = greenDuration;
+    }
+
     public String getSignalID() {
         return signalID;
     }
-
+    public int[] getTimers() {
+        return timers;
+    }
     //  Main method to test the TrafficSignal class independently
     public static void main(String[] args) {
-        // First create a traffic signal object
-        TrafficSignal signal = new TrafficSignal("Traffic_Signal_1");
+        try {
+            // First create a traffic signal object
+            TrafficSignal signal = new TrafficSignal("Traffic_Signal_1");
 
-        // Now call signal() method 3 times to show the Red, Yellow and Green state
-        signal.signal(); // Shows Red
-        signal.signal(); // Shows Yellow
-        signal.signal(); // Shows Green
+            // Now call signal() method 3 times to show the Red, Yellow and Green state
+            signal.signal(); // Red
+            signal.signal(); // Yellow
+            signal.signal(); // Green
 
-        // Call fourth time to show exception (invalid transition)
-        signal.signal();
+            // Call fourth time to show exception (invalid transition)
+            signal.signal();
 
-        // Now show the current traffic signal state
-        signal.showTrafficSignal(); // should show Green
+            // Now show the current traffic signal state
+            signal.showTrafficSignal();
+
+        } catch (SimulationException e) {
+            System.out.println("Exception caught: " + e.getMessage());
+        }
     }
 }
